@@ -1,9 +1,16 @@
 import React, { Component } from "react";
-import logo from "./logo.svg";
+import NavBar from "./theme/NavBar";
+import Routes from "./Routes";
+import { Route } from "react-router-dom";
 
 class App extends Component {
   render() {
-    return <div className="App" />;
+    return (
+      <div className="App">
+        <NavBar />
+        <Route path="/" component={Routes} />
+      </div>
+    );
   }
 }
 

@@ -7,10 +7,12 @@ namespace LetsGo.Models
 {
     public class ScheduleRequest
     {
-        public DateTime TimeStart { get; set; }
-        public DateTime TimeEnd { get; set; }
+        public int StartTime { get; set; }
+        public int EndTime { get; set; }
         public string Title { get; set; }
+        public int Day { get; set; }
         public string Location { get; set; }
+        public string ImageUrl { get; set; }
 
     }
 }

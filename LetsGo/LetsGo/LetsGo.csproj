@@ -106,8 +106,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\ScheduleCreate.cs" />
-    <Compile Include="Models\ScheduleRequest.cs" />
+    <Compile Include="Models\Domain\Event.cs" />
+    <Compile Include="Models\Request\EventUpdateRequest.cs" />
+    <Compile Include="Models\Request\ScheduleCreate.cs" />
+    <Compile Include="Models\Request\ScheduleRequest.cs" />
+    <Compile Include="Models\Responses\PagedResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\LetsGoService.cs" />
   </ItemGroup>
