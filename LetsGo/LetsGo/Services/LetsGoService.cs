@@ -1,4 +1,5 @@
-﻿using LetsGo.Models;
+﻿using AngleSharp.Parser.Html;
+using LetsGo.Models;
 using LetsGo.Models.Request;
 using LetsGo.Models.Responses;
 using Newtonsoft.Json;
@@ -8,6 +9,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Net;
 using System.Web;
 
 namespace LetsGo.Services
@@ -17,7 +19,25 @@ namespace LetsGo.Services
 
         public int Create(ScheduleCreate data)
         {
-            
+
+            var scraper = new Scraper();
+            var pageToScrape = data.EventName.Replace(' ', '_');
+
+            var webClient = new WebClient();
+            var html = webClient.DownloadString("https://en.wikipedia.org/wiki/" + pageToScrape);
+
+            var parser = new HtmlParser();
+            var document = parser.Parse(html);
+
+            var contain = document.QuerySelectorAll(".mw-parser-output > p")[1];
+            var desc = contain.TextContent;
+
+          //  var desc = document.QuerySelectorAll(".mw-parser-output")[0];
+           // var hello = desc.QuerySelector("p:nth-child(2)");
+          //  QuerySelectorAll("p")[1].QuerySelector("innerText");
+
+            //  document.querySelectorAll('.mw-parser-output')[0].querySelectorAll('p')[1].innerText
+
             string jsonSchedule = JsonConvert.SerializeObject(data.Schedule);
             using (var con = GetConnection())
             {
@@ -27,6 +47,7 @@ namespace LetsGo.Services
                 cmd.Parameters.AddWithValue("@json", jsonSchedule);
                 cmd.Parameters.AddWithValue("@EventName", data.EventName);
                 cmd.Parameters.AddWithValue("@State", data.State);
+                cmd.Parameters.AddWithValue("@Description", desc);
                 cmd.Parameters.AddWithValue("@ImageUrl", data.ImageUrl);
                 cmd.Parameters.Add("@id", SqlDbType.Int).Direction = ParameterDirection.Output;
                 cmd.ExecuteNonQuery();
@@ -129,9 +150,11 @@ namespace LetsGo.Services
                 var cmd = con.CreateCommand();
                 cmd.CommandText = "Events_Delete";
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@id", id);
+                cmd.Parameters.AddWithValue("@Id", id);
+                cmd.ExecuteNonQuery();
             }
         }
+
 
 
 

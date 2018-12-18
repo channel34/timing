@@ -20,9 +20,9 @@ export function getById(id) {
 }
 
 export function updateEvent(payload, id) {
-  return axios.put("api/letsgo/update" + id, payload);
+  return axios.put("api/letsgo/update/" + id, payload);
 }
 
 export function deleteEvent(id) {
-  return axios.delete("api/delete/" + id);
+  return axios.delete("api/letsgo/delete/" + id);
 }

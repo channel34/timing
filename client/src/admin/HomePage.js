@@ -6,9 +6,13 @@ import {
   Card,
   CardImg,
   Input,
-  Button
+  Button,
+  Col,
+  Row
 } from "reactstrap";
-import { search } from "../services/server";
+import { search, deleteEvent } from "../services/server";
+import EventEditor from "./Upload/EventEditor";
+import EventCarousel from "./EventCarousel";
 
 class HomePage extends React.Component {
   state = {
@@ -34,49 +38,65 @@ class HomePage extends React.Component {
       this.setState({ searchData: res.data })
     );
   };
+
+  handleDelete = id => {
+    deleteEvent(id);
+  };
   render() {
     const { searchData } = this.state;
     return (
       <React.Fragment>
+        <div style={{ height: "300px", width: "200px" }}>
+          <div> Upcoming Events</div>
+          {searchData && <EventCarousel events={searchData} />}
+        </div>
         <div>Search Events</div>
-        <Input
-          onChange={this.handleInputChange}
-          value={this.state.searchValue}
-          name="searchValue"
-          type="text"
-        />
-        <Button onClick={this.handleSearch} color="primary">
-          Search
-        </Button>
+        <Row>
+          <Col md={3}>
+            <Input
+              onChange={this.handleInputChange}
+              value={this.state.searchValue}
+              name="searchValue"
+              type="text"
+            />
+          </Col>
+          <Button onClick={this.handleSearch} color="primary">
+            Search
+          </Button>
+        </Row>
         <div className="resultContainer">
           {searchData && (
             <div>
-              {searchData.map(event => (
-                <div
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns: "1fr 1fr 1fr 1fr"
-                  }}
-                >
+              {" "}
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "1fr 1fr 1fr 1fr"
+                }}
+              >
+                {searchData.map(event => (
                   <Card
                     key={event.id}
                     className="card px-1 py-1 my-1 border-left border-primary border-1 "
                   >
-                    <CardImg src={event.imageUrl} />
                     <CardBody>
                       <CardTitle>{event.eventName}</CardTitle>
-                      <CardText>{event.state}</CardText>
-                      <CardText />{" "}
-                      <Button
-                        color="info"
-                        onClick={() => this.handleEditClicked(event.id)}
-                      >
-                        Edit
-                      </Button>
+                      <CardImg src={event.imageUrl} />
+                      <CardText>Location: {event.state}</CardText>
+                      <CardText>Description : Coming soon </CardText>{" "}
+                      <Row>
+                        <EventEditor id={event.id} />
+                        <Button
+                          onClick={() => this.handleDelete(event.id)}
+                          color="danger"
+                        >
+                          Delete
+                        </Button>
+                      </Row>
                     </CardBody>
                   </Card>
-                </div>
-              ))}{" "}
+                ))}
+              </div>
             </div>
           )}
         </div>

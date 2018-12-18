@@ -82,26 +82,36 @@ class UploadSchedule extends React.Component {
     return (
       <React.Fragment>
         <Form>
-          <Col md={3}>
-            <FormGroup>
-              <Label>Event Name</Label>
-              <Input
-                type="text"
-                name="eventName"
-                placeholder="Event Name"
-                onChange={this.handleInputChange}
-                value={this.state.eventName}
-              />
-            </FormGroup>
-          </Col>
+          <Row form>
+            <Col md={3}>
+              <FormGroup>
+                <Label>Event Name</Label>
+                <Input
+                  type="text"
+                  name="eventName"
+                  placeholder="Event Name"
+                  onChange={this.handleInputChange}
+                  value={this.state.eventName}
+                />
+              </FormGroup>{" "}
+            </Col>
+            <CSVReader
+              cssClass="csv-input"
+              label="Select Schedule"
+              onFileLoaded={this.handleForce}
+              onError={this.handleError}
+              inputId="Event"
+              inputStyle={{ color: "green" }}
+            />
+          </Row>
           <Row form>
             <Col md={1}>
               <FormGroup>
-                <Label>State</Label>
+                <Label>Location</Label>
                 <Input
                   type="text"
                   name="state"
-                  placeholder="State"
+                  placeholder="Location"
                   onChange={this.handleInputChange}
                   value={this.state.state}
                   maxLength="2"
@@ -123,15 +133,6 @@ class UploadSchedule extends React.Component {
           </Row>
         </Form>
 
-        <CSVReader
-          cssClass="csv-input"
-          label="Select Schedule"
-          onFileLoaded={this.handleForce}
-          onError={this.handleError}
-          inputId="Event"
-          inputStyle={{ color: "green" }}
-        />
-
         <PreSubmitTable
           value2={value2}
           value3={value3}
@@ -142,7 +143,7 @@ class UploadSchedule extends React.Component {
           onhandleImportCSV={this.onhandleImportCSV}
         />
 
-        <Button type="button" onClick={this.handleSubmit}>
+        <Button type="submit" onClick={this.handleSubmit}>
           Upload
         </Button>
       </React.Fragment>

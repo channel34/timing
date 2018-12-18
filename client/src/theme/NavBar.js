@@ -1,5 +1,5 @@
 import React from "react";
-import "./NavBar.css";
+import "./css/NavBar.css";
 import {
   Collapse,
   Navbar,
@@ -26,15 +26,20 @@ class NavBar extends React.Component {
   };
   render() {
     return (
-      <div className="root">
-        <Navbar color="faded red" light expand="sm">
-          <NavbarBrand href="/homePage">Let's Go</NavbarBrand>
+      <div
+        style={{ backgroundColor: "Gainsboro", fontFamily: "Georgia" }}
+        className="root"
+      >
+        <Navbar expand="sm">
+          <NavbarBrand href="/homePage">LetsGo</NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
+              <NavLink href="homePage">Events</NavLink>
               <NavItem>
                 <NavLink href="admin">File Upload</NavLink>
               </NavItem>
+
               <UncontrolledDropdown nav inNavbar>
                 <DropdownToggle nav caret>
                   Options
